@@ -1,0 +1,35 @@
+﻿<div>
+	<!-- ko template: { name: 'NodeDetailsTemplate' } -->
+	<!-- /ko -->
+</div>
+
+<script id="NodeDetailsTemplate" type="text/html">
+   <!-- ko if: (typeof($root) != "undefined" && null != $root && typeof($root.NodeData) != "undefined" && null != $root.NodeData) -->
+	   <table>
+			<tr>
+				<td>
+					<span>Name:</span>
+				</td>
+				<td>
+					<span data-bind="text: $root.NodeData().Name()"></span>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<span>Path:</span>
+				</td>
+				<td>
+					<span data-bind="text: $root.NodeData().Path()"></span>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<span>Creation Date:</span>
+				</td>
+				<td>
+					<span data-bind="text: $root.NodeData().CreationDate()"></span>
+				</td>
+			</tr>
+		</table>
+	<!-- /ko -->
+</script>

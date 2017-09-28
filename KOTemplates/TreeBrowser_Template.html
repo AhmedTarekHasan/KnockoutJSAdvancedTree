@@ -1,0 +1,121 @@
+﻿<table>
+	<tr>
+		<td colspan = "5" style="text-align: center; background-color: green; color: white;">
+			Total number of nodes is&nbsp;<span class="unselectable" style="cursor: default;" data-bind="text: $root.TotalNumberOfNodes()"></span>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			Sort by&nbsp;
+		</td>
+		<td>
+			<select data-bind="options: $root.NodeDataPropertiesArray, value: $root.SortByProperty, optionsText: 'name'"></select>
+		</td>
+		<td colspan="2">
+			<input type="radio" name="SortByDirectionIsAscending" value="true" data-bind="checked: $root.SortByDirectionIsAscending" />
+			<span class="unselectable" style="cursor: default;" data-bind="click: function(){ $root.BooleanSortByDirectionIsAscending(true); }">Ascending</span>
+			<input type="radio" name="SortByDirectionIsAscending" value="false" data-bind="checked: $root.SortByDirectionIsAscending" />
+			<span class="unselectable" style="cursor: default;" data-bind="click: function(){ $root.BooleanSortByDirectionIsAscending(false); }">Descending</span>
+		</td>
+		<td>
+			<input type="button" style="width:80px;" value="Sort" data-bind="click: function() { $root.SortTreeByPropertyName($root.SortByProperty().value, $root.SortByProperty().isNumeric, $root.SearchTextWithTrimming(), $root.SearchTextCaseSensitive(), $root.BooleanSortByDirectionIsAscending()); }" />
+		</td>
+	</tr>
+	<tr>
+		<td>
+			Search by&nbsp;
+		</td>
+		<td>
+			<select data-bind="options: $root.NodeDataPropertiesArray, value: $root.SearchTextPropertyName, optionsText: 'name'"></select>
+		</td>
+		<td>
+			&nbsp;for&nbsp;&nbsp;<input type="text" style="width:200px;" data-bind="value: $root.SearchText, valueUpdate: 'afterkeydown'" />
+		</td>
+		<td>
+			<input type="checkbox" data-bind="enable: !$root.SearchTextIsRegularExpression(), checked: $root.SearchTextHighlightIsOn" />&nbsp;&nbsp;
+			<span class="unselectable" style="cursor: default;" data-bind="click: function(){ $root.SearchTextHighlightIsOn(!$root.SearchTextHighlightIsOn()); }">Highlight</span>
+		</td>
+		<td>
+			<input type="button" style="width:80px;" value="Search" data-bind="click: $root.Search" />
+		</td>
+	</tr>
+	<tr>
+		<td colspan = "5">
+			<table>
+				<tr>
+					<td>
+						<input type="radio" name="SearchTextOperationMode" value="notReg" data-bind="checked: $root.SearchTextOperationMode" />
+						<span class="unselectable" style="cursor: default;" data-bind="click: function(){ $root.SearchTextIsRegularExpression(false); }">Other</span>
+					</td>
+					<td data-bind="css: { 'disabled-area': $root.SearchTextIsRegularExpression() }">
+						<input type="checkbox" data-bind="enable: !$root.SearchTextIsRegularExpression(), checked: $root.SearchTextWithTrimming" />&nbsp;&nbsp;
+						<span class="unselectable" style="cursor: default;" data-bind="click: function(){ $root.SearchTextWithTrimming(!$root.SearchTextWithTrimming()); }">Trim</span>&nbsp;&nbsp;&nbsp;&nbsp;
+						
+						<input type="checkbox" data-bind="enable: !$root.SearchTextIsRegularExpression(), checked: $root.SearchTextCaseSensitive" />&nbsp;&nbsp;
+						<span class="unselectable" style="cursor: default;" data-bind="click: function(){ $root.SearchTextCaseSensitive(!$root.SearchTextCaseSensitive()); }">Case Sensitive</span>
+						
+						&nbsp;&nbsp;&nbsp;&nbsp;
+						<input type="checkbox" data-bind="enable: !$root.SearchTextIsRegularExpression(), checked: $root.SearchTextMatchWhole" />&nbsp;&nbsp;
+						<span class="unselectable" style="cursor: default;" data-bind="click: function(){ $root.SearchTextMatchWhole(!$root.SearchTextMatchWhole()); }">Match Whole Word</span>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<input type="radio" name="SearchTextOperationMode" value="reg" data-bind="checked: $root.SearchTextOperationMode" />
+						<span class="unselectable" style="cursor: default;" data-bind="click: function(){ $root.SearchTextIsRegularExpression(true); }">Regular Expression</span>
+					</td>
+					<td data-bind="css: { 'disabled-area': !$root.SearchTextIsRegularExpression() }">
+						<input type="checkbox" data-bind="enable: $root.SearchTextIsRegularExpression(), checked: $root.SearchTextIsRegularExpression" />&nbsp;&nbsp;Search by Regular Expression&nbsp;&nbsp;
+						&nbsp;&nbsp;Modifiers&nbsp;&nbsp;<input type="text" style="width:100px;" data-bind="enable: $root.SearchTextIsRegularExpression(), value: $root.SearchTextRegularExpressionOptions" />
+						&nbsp;&nbsp;(e.g: i, g, gi, ...)
+					</td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+	<tr>
+		<td colspan = "5"></td>
+	</tr>
+	<tr>
+		<td colspan = "5">
+			<input type="button" style="width:130px;" value="Expand All" data-bind="click: $root.ExpandAll" />&nbsp;&nbsp;&nbsp;&nbsp;
+			<input type="button" style="width:130px;" value="Collapse All" data-bind="click: $root.CollapseAll" />&nbsp;&nbsp;&nbsp;&nbsp;
+			<input type="button" style="width:130px;" value="Dehighlight All" data-bind="click: $root.DehighlightAll" />
+		</td>
+	</tr>
+	<tr>
+		<td colspan = "5"></td>
+	</tr>
+	<tr>
+		<td colspan = "5">
+			<div id="tree" class="jstree jstree-1 jstree-default jstree-default-small" style="height: 430px;">
+				<ul class="jstree-container-ul jstree-children jstree-striped">
+					<li class="jstree-node jstree-open jstree-last">
+						<i class="jstree-icon jstree-ocl"></i>
+						<a class="jstree-anchor" href="#">
+							<i class="jstree-icon jstree-themeicon folder jstree-themeicon-custom"></i>
+							Root
+						</a>
+						<!-- ko template: { name: 'NodeTemplate',  foreach: NestedTreeNodesArray} -->
+						<!-- /ko -->
+					</li>
+				</ul>
+			</div>
+		</td>
+	</tr>
+</table>
+
+
+<script id="NodeTemplate" type="text/html">
+    <ul class="jstree-children">
+		<li class="jstree-node" data-bind="css: {'jstree-leaf': !$data.HasChildren(), 'jstree-last': $data.IsLastSibling(), 'jstree-closed': !$data.IsExpanded(), 'jstree-open': $data.IsExpanded() }">
+			<i class="jstree-icon jstree-ocl" data-bind="click: function() { $root.ReverseExpandCollapseState(this); }"></i>
+			<a class="jstree-anchor" href="#" data-bind="click: function() { $root.DeselectAll(); $root.Select(this); }, css: {'highlighted-node': ($root.SearchTextHighlightIsOn() && $data.IsHighlighted()), 'selected': $data.IsSelected() }">
+				<i class="jstree-icon jstree-themeicon folder jstree-themeicon-custom" data-bind="css: { 'folder': $data.HasChildren(), 'file file-ew': !$data.HasChildren(), 'active': $data.IsSelected() }"></i>
+				<span  data-bind="text: $data.DisplayName()"></span>
+			</a>
+			<!-- ko template: { name: 'NodeTemplate',  foreach: $data.Children } -->
+            <!-- /ko -->
+		</li>
+	</ul>
+</script>
